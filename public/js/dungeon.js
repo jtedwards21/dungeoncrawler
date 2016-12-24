@@ -2,6 +2,8 @@ var Dungeon = {
     map: null,
     map_size: 64,
     rooms: [],
+　　　　lightOn: false,
+    lightRadius: 5,
     playerPosition: [7,7],
     Generate: function () {
         this.map = [];
@@ -160,14 +162,30 @@ var Renderer = {
         this.ctx = canvas.getContext('2d');
         this.scale = this.canvas.width / Dungeon.map_size;
     },
+    isDark: function(coord) {
+	xDistance = Math.abs(coord[0] - Dungeon.playerPosition[0]);
+	yDistance = Math.abs(coord[1] - Dungeon.playerPosition[1]);
+	var distance = xDistance + yDistance;
+	if(distance > Dungeon.lightRadius){return true;} else {return false;}
+    },
     Update: function () {
         for (var y = 0; y < Dungeon.map_size; y++) {
             for (var x = 0; x < Dungeon.map_size; x++) {
-                var tile = Dungeon.map[x][y];
-                if (tile == 0) this.ctx.fillStyle = '#351330';
-                else if (tile == 1) this.ctx.fillStyle = '#64908A';
-                else this.ctx.fillStyle = '#424254';
-                this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
+		var coord = [x,y];
+		switch(this.isDark(coord)){
+		  case true:
+		    var tile = Dungeon.map[x][y];
+		    this.ctx.fillStyle = '#351330';
+                    this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
+		    break;
+		  case false:
+                    var tile = Dungeon.map[x][y];
+                    if (tile == 0) this.ctx.fillStyle = '#351330';
+                    else if (tile == 1) this.ctx.fillStyle = '#64908A';
+                    else this.ctx.fillStyle = '#424254';
+                    this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
+		    break;
+		}
             }
         }
 	//Show Player Position

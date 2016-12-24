@@ -12,8 +12,26 @@ var Crawler = React.createClass({
       xp: 0,
       enemies: [],
       items: [],
-      position:[7,7]
+      position:[7,7],
+      lightOn: false,
+      lightRadius: 5
     };
+  },
+  setLightRadius(newRadius){
+    this.setState({lightRadius: newRadius});
+    Dungeon.lightRadius = newRadius;
+  },
+  toggleLights(){
+    switch(this.state.lightOn){
+      case true:
+	this.setState({lightOn: false});
+	Dungeon.lightOn = false;
+	break;
+      case false:
+	this.setState({lightOn: true});
+	Dungeon.lightOn = true;
+	break;
+    }
   },
   componentDidMount(){
     this.generateMap();
