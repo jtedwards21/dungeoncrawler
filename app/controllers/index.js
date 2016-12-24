@@ -12,15 +12,20 @@ var Crawler = React.createClass({
       items: []
     };
   },
+  componentDidMount(){
+    this.generateMap();
+  },
   generateMap(){
-
+    Dungeon.Generate();
+    Renderer.Initialize();
+    Renderer.Update(Dungeon.map);
   },
   generateEnemies(){
 
   },
   generateItems(){
 
-  }
+  },
   changeWeapon(name){
     var weapon = {};
     for(var i = 0;i < weapons.length;i++){
@@ -40,9 +45,10 @@ var Crawler = React.createClass({
   },
   render(){
 　　　　return(
-　　　　　　<h1>
-	Hello World
-      </h1>
+	<div className="box">
+	  <canvas id="canvas"></canvas>
+	</div>
+      
     )
   }
 })
