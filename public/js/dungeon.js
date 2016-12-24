@@ -204,8 +204,19 @@ var Dungeon = {
         }
 	return false;
     },
-    IsItem: function(coord){
-	//Add Check into Render
+    IsWeapon: function(coord){
+	for(var i = 0;i < this.weaponPositions.length; i++){
+	  var e = this.weaponPositions[i];
+	  if(e.position[0] === coord[0] && e.position[1] === coord[1]){return e.id}
+        }
+	return false;
+    },
+    IsHealth: function(coord){
+	for(var i = 0;i < this.healthPositions.length; i++){
+	  var e = this.healthPositions[i];
+	  if(e.position[0] === coord[0] && e.position[1] === coord[1]){return e.id}
+        }
+	return false;
     }
 }
 
