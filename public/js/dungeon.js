@@ -8,6 +8,18 @@ var Dungeon = {
     enemyPositions: [],
     weaponPositions: [],
     healthPositions: [],
+    RemoveEnemy: function(id){
+	var index;
+	for(var i = 0; i < this.enemyPositions.length; i++){
+	  if(this.enemyPositions[i].id == id){
+		index = i;
+	  }
+	}
+	var newPositions = this.enemyPositions.slice(index);
+	var tail = this.enemyPositions.slice(index + 1);
+	newPositions = newPositions.concat(tail);
+	this.enemyPositons = newPositions;
+    },
     PlacePlayer: function() {
 	var minimum = 0
         var maximum = this.rooms.length - 1

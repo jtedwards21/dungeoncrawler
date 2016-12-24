@@ -144,8 +144,12 @@ var Crawler = React.createClass({
     Dungeon.playerPosition = this.state.position;
     Renderer.Update(Dungeon.map);
   },
-  removeDeadEnemy(){
-
+  killEnemy(id){
+    //remove state enemy;
+    Dungeon.RemoveEnemy(id);
+  },
+  killPlayer(){
+    console.log('You Died.');
   },
   movePlayer(coord){
     var position = this.state.position;
