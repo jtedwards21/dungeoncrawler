@@ -195,7 +195,7 @@ var Crawler = React.createClass({
     }
   },
   render(){
-    var infoBox = <InfoBox weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} />
+    var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} />
 
 　　　　return(
 	<div className="box">
@@ -215,6 +215,9 @@ var InfoBox = React.createClass({
     return {};
   },
   render(){
+    var enemies = this.props.enemies.map(function(e){
+      return <EnemyDisplay id={e.id} health={e.health} level={e.level} />
+    });
     return(
       <div>
 	{this.props.weapon.name}
@@ -222,7 +225,23 @@ var InfoBox = React.createClass({
 	{this.props.level}
 	{this.props.health}
 	{this.props.xp}
+	{enemies}
       </div>
+    )
+  }
+})
+
+var EnemyDisplay = React.createClass({
+  getInitialState(){
+    return{}
+  },
+  render(){
+    return (
+	<div>
+	  {this.props.id}
+	  {this.props.health}
+	  {this.props.level}
+	</div>
     )
   }
 })
