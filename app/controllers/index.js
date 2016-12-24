@@ -33,7 +33,7 @@ var Crawler = React.createClass({
     return {
 　　　　　　health: 100,
       level: 1,
-      weapon: {name:"dog",attack:2},
+      weapon: {name:"dog",attack:20},
       xp: 0,
       enemies: [],
       weaponItems: [],
@@ -145,8 +145,19 @@ var Crawler = React.createClass({
     Renderer.Update(Dungeon.map);
   },
   killEnemy(id){
-    //remove state enemy;
+    var index;
+    var enemyPositions = this.state.enemies;
+    for(var i = 0; i < enemyPositions.length; i++){
+      if(enemyPositions[i].id == id){
+	index = i;
+      }
+    }
+    console.log(index);
+    var newPositions = enemyPositions.slice(0,index);
+    var tail = enemyPositions.slice(index + 1);
+    newPositions = newPositions.concat(tail);
     Dungeon.RemoveEnemy(id);
+    this.setState({enemies: newPositions});
   },
   killPlayer(){
     console.log('You Died.');
@@ -173,7 +184,7 @@ var Crawler = React.createClass({
 		enemy.health = enemy.health - playerAttack;
 		health = health - enemy.getAttackValue();
 		//Check for Player Death
-		//Check for enemy Death 
+		if(enemy.health <= 0){this.killEnemy(enemy.id)}
 		this.setState({health:health});
 	  }
 	  else if (isWeapon !== false){console.log('weapon!')}

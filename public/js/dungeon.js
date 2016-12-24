@@ -15,10 +15,11 @@ var Dungeon = {
 		index = i;
 	  }
 	}
-	var newPositions = this.enemyPositions.slice(index);
+	var newPositions = this.enemyPositions.slice(0,index);
 	var tail = this.enemyPositions.slice(index + 1);
 	newPositions = newPositions.concat(tail);
-	this.enemyPositons = newPositions;
+	console.log(newPositions);
+	this.enemyPositions = newPositions;
     },
     PlacePlayer: function() {
 	var minimum = 0
