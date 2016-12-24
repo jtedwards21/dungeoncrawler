@@ -18,7 +18,7 @@ function Enemy (level, position) {
   this.position = position;
   this.health = 100;
   this.level = level;
-  this.getAttackValue(){
+  this.getAttackValue = function(){
     var minimum = Math.ceil(this.level * 4);
     var maximum = Math.floor(this.level * 5);
     return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
