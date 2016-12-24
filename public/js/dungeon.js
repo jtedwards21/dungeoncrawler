@@ -6,7 +6,8 @@ var Dungeon = {
     lightRadius: 5,
     playerPosition: [7,7],
     enemyPositions: [],
-    itemPositions: [],
+    weaponPositions: [],
+    healthPositions: [],
     PlacePlayer: function() {
 	var minimum = 0
         var maximum = this.rooms.length - 1
@@ -16,6 +17,30 @@ var Dungeon = {
 	var y = Math.floor(room.h/2) + room.y;
         this.playerPosition = [x,y];
 	return this.playerPosition;
+    },
+　　　　PlaceWeapon: function(id){
+	var minimum = 0
+        var maximum = this.rooms.length - 1
+        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+        var room = this.rooms[roomNo];
+	var x = Math.floor(room.w/2) + room.x;
+	var y = Math.floor(room.h/2) + room.y;
+        var e = {position: [x,y], id: id};
+        console.log(e);
+	this.weaponPositions.push(e);
+	return [x,y];
+    },
+    PlaceHealth: function(id){
+	var minimum = 0
+        var maximum = this.rooms.length - 1
+        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+        var room = this.rooms[roomNo];
+	var x = Math.floor(room.w/2) + room.x;
+	var y = Math.floor(room.h/2) + room.y;
+        var e = {position: [x,y], id: id};
+        console.log(e);
+	this.healthPositions.push(e);
+	return [x,y];
     },
     PlaceEnemy: function(id) {
         var minimum = 0
@@ -27,7 +52,7 @@ var Dungeon = {
         var e = {position: [x,y], id: id};
         console.log(e);
 	this.enemyPositions.push(e);
-	return this.enemyPosition;
+	return [x,y];
     },
     Generate: function () {
         this.map = [];
@@ -228,7 +253,19 @@ var Renderer = {
 	  var y = Dungeon.enemyPositions[i].position[1];
 	　　this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
         }
-	//Show Item Positions
+	//Show Weapon Positions
+	this.ctx.fillStyle = "yellow";
+	for(var i = 0; i < Dungeon.weaponPositions.length; i++){
+	  var x = Dungeon.weaponPositions[i].position[0];
+	  var y = Dungeon.weaponPositions[i].position[1];
+	　　this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
+        }
+	this.ctx.fillStyle = "green";
+	for(var i = 0; i < Dungeon.healthPositions.length; i++){
+	  var x = Dungeon.healthPositions[i].position[0];
+	  var y = Dungeon.healthPositions[i].position[1];
+	　　this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
+        }
     }
 };
 

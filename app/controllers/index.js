@@ -1,17 +1,19 @@
 
 var weapons = [{name: "dog", attack: 2}, {name: "brass knuckles", attack: 10}, {name: "pistol", attack: "20"}]
 
-function WeaponItem(weapon, position) {
+function WeaponItem(weapon, position, id) {
   this.weapon = weapon;
   this.position = position; 
   this.itemType = "weapon";
+  this.id = id;
   
 };
 
-function HealthItem(value, position)　{
+function HealthItem(value, position, id)　{
   this.value = value;
   this.position = position;
   this.itemType = "health";
+  this.id = id;
 };
 
 function Enemy (level, position, id) {
@@ -34,7 +36,8 @@ var Crawler = React.createClass({
       weapon: {name:"dog",attack:2},
       xp: 0,
       enemies: [],
-      items: [],
+      weaponItems: [],
+      healthItems:[],
       position:[7,7],
       lightOn: false,
       lightRadius: 5,
@@ -70,6 +73,8 @@ var Crawler = React.createClass({
     var playerPosition = Dungeon.PlacePlayer();
     this.setState({position: playerPosition});
     this.generateEnemies();
+    this.generateWeaponItems();
+    this.generateHealthItems();
     Renderer.Update(Dungeon.map);
   },
   generateEnemies(){
@@ -87,8 +92,8 @@ var Crawler = React.createClass({
     }
     this.setState({enemies:enemies});
   },
-  generateItems(){
-    var items = this.state.items;
+  generateWeaponItems(){
+    var items = this.state.weaponItems;
 
     //Generate Weapons
     var minimum = Math.ceil(0);
@@ -96,22 +101,27 @@ var Crawler = React.createClass({
     for(var i = 0; i < this.state.numberOfWeaponItems;i++){
       var n =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
       items = items.slice();
-      //Get Weapon Position
-      var w = new WeaponItem(weapons[n]);
+      var position = Dungeon.PlaceWeapon(i);
+      var id = i;
+      var w = new WeaponItem(weapons[n], position, id);
       items.push(w);
     }
-
+    this.setState({weaponItems: items});
+  },
+  generateHealthItems(){
+    var items = this.state.healthItems;
     //Generate Health Items
     var minimum = Math.ceil(1);
     var maximum = Math.floor(100);
     for(var i = 0; i < this.state.numberOfHealthItems;i++){
       var value =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
       items = items.slice();
-      //Get Health Position
+      var position = Dungeon.PlaceHealth(i);
+      var id = i;
       var h = new HealthItem(value);
       items.push(h);
     }
-    
+    this.setState({healthItems: items});
   },
   changeWeapon(name){
     var weapon = {};
