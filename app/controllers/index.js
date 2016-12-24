@@ -1,8 +1,21 @@
 
 var weapons = [{name: "dog", attack: 2}, {name: "brass knuckles", attack: 10}, {name: "pistol", attack: "20"}]
 
+function WeaponItem(weapon, position) {
+  this.weapon = weapon;
+  this.position = position; 
+  this.itemType = "weapon";
+  
+};
 
-function Enemy (level) {
+function HealthItem(value, position)　{
+  this.value = value;
+  this.position = position;
+  this.itemType = "health";
+};
+
+function Enemy (level, position) {
+  this.position = position;
   this.health = 100;
   this.level = level;
   this.getAttackValue(){
@@ -26,7 +39,7 @@ var Crawler = React.createClass({
       lightRadius: 5,
       numberOfEnemies: 3,
       numberOfHealthItems: 3,
-      numberOfWeapons:1
+      numberOfWeaponItems: 2
     };
   },
   setLightRadius(newRadius){
@@ -62,13 +75,38 @@ var Crawler = React.createClass({
     for(var i = 0; i < this.state.numberOfEnemies; i++){
       enemies = enemies.slice();
       var level =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+      //Get Enemy Positions
+      //Place Enemy on Map
       var e = new Enemy(level);
 　　　　　　enemies.push(e);
     }
     this.setState({enemies:enemies});
   },
   generateItems(){
+    var items = this.state.items;
 
+    //Generate Weapons
+    var minimum = Math.ceil(0);
+    var maximum = Math.floor(weapons.length);
+    for(var i = 0; i < this.state.numberOfWeaponItems;i++){
+      var n =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+      items = items.slice();
+      //Get Weapon Position
+      var w = new WeaponItem(weapons[n]);
+      items.push(w);
+    }
+
+    //Generate Health Items
+    var minimum = Math.ceil(1);
+    var maximum = Math.floor(100);
+    for(var i = 0; i < this.state.numberOfHealthItems;i++){
+      var value =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+      items = items.slice();
+      //Get Health Position
+      var h = new HealthItem(value);
+      items.push(h);
+    }
+    
   },
   changeWeapon(name){
     var weapon = {};
@@ -130,32 +168,7 @@ var Crawler = React.createClass({
   }
 })
 
-var WeaponItem = React.createClass({
-  getInitialState(){
-    return {
-	name: this.props.name,
-	attack: this.props.attack
-    };
-  },
-  render(){
-    return (
-      <div></div>
-    )
-  }
-})
 
-var HealthItem = React.createClass({
-  getInitialState(){
-    return {
-	value: this.props.value
-    };
-  },
-  render(){
-    return (
-	<div></div>
-    )
-  }
-})
 
 
 var InfoBox = React.createClass({

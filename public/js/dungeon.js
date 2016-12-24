@@ -147,6 +147,12 @@ var Dungeon = {
 	     return true;
 	     break;
 	 }
+    },
+    IsEnemy: function(coord){
+	//Add Check into Render
+    },
+    IsItem: function(coord){
+	//Add Check into Render
     }
 }
 
