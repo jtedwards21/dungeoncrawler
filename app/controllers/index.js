@@ -14,7 +14,8 @@ function HealthItem(value, position)　{
   this.itemType = "health";
 };
 
-function Enemy (level, position) {
+function Enemy (level, position, id) {
+  this.id = id;
   this.position = position;
   this.health = 100;
   this.level = level;
@@ -68,7 +69,7 @@ var Crawler = React.createClass({
     //Get Player
     var playerPosition = Dungeon.PlacePlayer();
     this.setState({position: playerPosition});
-    //Get Enemies;
+    this.generateEnemies();
     Renderer.Update(Dungeon.map);
   },
   generateEnemies(){
@@ -79,9 +80,9 @@ var Crawler = React.createClass({
     for(var i = 0; i < this.state.numberOfEnemies; i++){
       enemies = enemies.slice();
       var level =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-      //Get Enemy Positions
-      //Place Enemy on Map
-      var e = new Enemy(level);
+      var position = Dungeon.PlaceEnemy(i);
+      var id = i;
+      var e = new Enemy(level, position, id);
 　　　　　　enemies.push(e);
     }
     this.setState({enemies:enemies});

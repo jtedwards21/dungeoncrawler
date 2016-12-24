@@ -5,6 +5,8 @@ var Dungeon = {
 　　　　lightOn: false,
     lightRadius: 5,
     playerPosition: [7,7],
+    enemyPositions: [],
+    itemPositions: [],
     PlacePlayer: function() {
 	var minimum = 0
         var maximum = this.rooms.length - 1
@@ -14,6 +16,18 @@ var Dungeon = {
 	var y = Math.floor(room.h/2) + room.y;
         this.playerPosition = [x,y];
 	return this.playerPosition;
+    },
+    PlaceEnemy: function(id) {
+        var minimum = 0
+        var maximum = this.rooms.length - 1
+        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+        var room = this.rooms[roomNo];
+	var x = Math.floor(room.w/2) + room.x;
+	var y = Math.floor(room.h/2) + room.y;
+        var e = {position: [x,y], id: id};
+        console.log(e);
+	this.enemyPositions.push(e);
+	return this.enemyPosition;
     },
     Generate: function () {
         this.map = [];
@@ -207,6 +221,14 @@ var Renderer = {
 	//Show Player Position
 	this.ctx.fillStyle = "red";
 	this.ctx.fillRect(Dungeon.playerPosition[0] * this.scale, Dungeon.playerPosition[1] * this.scale, this.scale, this.scale)
+        //Show Enemy Positions
+	this.ctx.fillStyle = "blue";
+	for(var i = 0; i < Dungeon.enemyPositions.length; i++){
+	  var x = Dungeon.enemyPositions[i].position[0];
+	  var y = Dungeon.enemyPositions[i].position[1];
+	　　this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
+        }
+	//Show Item Positions
     }
 };
 
