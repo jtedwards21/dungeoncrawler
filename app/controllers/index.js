@@ -2,6 +2,15 @@
 var weapons = [{name: "dog", attack: 2}, {name: "brass knuckles", attack: 10}, {name: "pistol", attack: "20"}]
 
 
+function Enemy (level) {
+  this.health = 100;
+  this.level = level;
+  this.getAttackValue(){
+    var minimum = Math.ceil(this.level * 4);
+    var maximum = Math.floor(this.level * 5);
+    return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+  };
+}
 
 var Crawler = React.createClass({
   getInitialState() {
@@ -14,7 +23,10 @@ var Crawler = React.createClass({
       items: [],
       position:[7,7],
       lightOn: false,
-      lightRadius: 5
+      lightRadius: 5,
+      numberOfEnemies: 3,
+      numberOfHealthItems: 3,
+      numberOfWeapons:1
     };
   },
   setLightRadius(newRadius){
@@ -43,7 +55,17 @@ var Crawler = React.createClass({
     Renderer.Update(Dungeon.map);
   },
   generateEnemies(){
-
+    var enemies = this.state.enemies;
+    var minimum = Math.ceil(this.state.level);
+    var maximum = Math.floor(this.state.level * 3);
+    var level =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+    for(var i = 0; i < this.state.numberOfEnemies; i++){
+      enemies = enemies.slice();
+      var level =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+      var e = new Enemy(level);
+　　　　　　enemies.push(e);
+    }
+    this.setState({enemies:enemies});
   },
   generateItems(){
 
@@ -135,25 +157,6 @@ var HealthItem = React.createClass({
   }
 })
 
-var Enemy = React.createClass({
-  getInitialState(){
-    return {
-	      level: 1,
-	      health: 100
-	   };
-  },
-  getAttackValue(){
-    var minimum = Math.ceil(this.state.level * 4);
-    var maximum = Math.floor(this.state.level * 5);
-    return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-  },
-  render(){
-    return (
-	<div>
-	</div>
-    )
-  }
-})
 
 var InfoBox = React.createClass({
   getInitialState(){
