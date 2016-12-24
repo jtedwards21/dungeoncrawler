@@ -65,6 +65,10 @@ var Crawler = React.createClass({
   generateMap(){
     Dungeon.Generate();
     Renderer.Initialize();
+    //Get Player
+    var playerPosition = Dungeon.PlacePlayer();
+    this.setState({position: playerPosition});
+    //Get Enemies;
     Renderer.Update(Dungeon.map);
   },
   generateEnemies(){

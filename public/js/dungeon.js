@@ -5,6 +5,16 @@ var Dungeon = {
 　　　　lightOn: false,
     lightRadius: 5,
     playerPosition: [7,7],
+    PlacePlayer: function() {
+	var minimum = 0
+        var maximum = this.rooms.length - 1
+        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+        var room = this.rooms[roomNo];
+	var x = Math.floor(room.w/2) + room.x;
+	var y = Math.floor(room.h/2) + room.y;
+        this.playerPosition = [x,y];
+	return this.playerPosition;
+    },
     Generate: function () {
         this.map = [];
         for (var x = 0; x < this.map_size; x++) {
