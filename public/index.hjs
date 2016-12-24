@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'>
+    <link rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css'>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+　　　　<div class="calc-title">Javascript Calculator</div>
+    <div id="content"　class="calculator-container">{{{markup}}}</div>
+
+　　　　<script src="javascripts/jquery-3.1.1.min.js"></script>
+    <script>$(".calc-title").css("font-family", "Denominator")</script>
+　　　　<script src="bootstrap.min.js"></script>
+    <script src="javascripts/bundle.js"></script>
+  </body>
+</html>
