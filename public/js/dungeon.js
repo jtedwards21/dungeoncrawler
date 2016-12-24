@@ -198,7 +198,11 @@ var Dungeon = {
 	 }
     },
     IsEnemy: function(coord){
-	//Add Check into Render
+	for(var i = 0;i < this.enemyPositions.length; i++){
+	  var e = this.enemyPositions[i];
+	  if(e.position[0] === coord[0] && e.position[1] === coord[1]){return e.id}
+        }
+	return false;
     },
     IsItem: function(coord){
 	//Add Check into Render

@@ -148,11 +148,12 @@ var Crawler = React.createClass({
     var position = this.state.position;
     var newPosition = [coord[0] + position[0],coord[1] + position[1]];
     var isWall = Dungeon.IsWall(newPosition);
-    
+    var isEnemy = Dungeon.IsEnemy(newPosition);
     switch(isWall){
 	case true:
 	  break;
 	case false:
+	  if(isEnemy !== false){console.log('enemy!')};//If there's an enemy we don't refresh yet
           this.setState({position:newPosition});
 	  this.refreshDungeon();
     }
