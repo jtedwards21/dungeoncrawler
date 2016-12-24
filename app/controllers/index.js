@@ -144,6 +144,9 @@ var Crawler = React.createClass({
     Dungeon.playerPosition = this.state.position;
     Renderer.Update(Dungeon.map);
   },
+  removeDeadEnemy(){
+
+  },
   movePlayer(coord){
     var position = this.state.position;
     var newPosition = [coord[0] + position[0],coord[1] + position[1]];
@@ -155,7 +158,20 @@ var Crawler = React.createClass({
 	case true:
 	  break;
 	case false:
-	  if(isEnemy !== false){console.log('enemy!')}//If there's an enemy we don't refresh yet
+	  if(isEnemy !== false){
+		console.log('enemy!');
+		var health = this.state.health;
+		var playerAttack = this.state.weapon.attack * this.state.level;
+		var enemy;
+		for(var i = 0; i < this.state.enemies.length; i++){
+		  if(this.state.enemies[i].id == isEnemy){enemy = this.state.enemies[i]}
+		}
+		enemy.health = enemy.health - playerAttack;
+		health = health - enemy.getAttackValue();
+		//Check for Player Death
+		//Check for enemy Death 
+		this.setState({health:health});
+	  }
 	  else if (isWeapon !== false){console.log('weapon!')}
 	  else if (isHealth !== false){console.log('health!')};
           this.setState({position:newPosition});
@@ -179,9 +195,12 @@ var Crawler = React.createClass({
     }
   },
   render(){
+    var infoBox = <InfoBox weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} />
+
 　　　　return(
 	<div className="box">
 	  <canvas id="canvas"></canvas>
+	  {infoBox}
 	</div>
       
     )
