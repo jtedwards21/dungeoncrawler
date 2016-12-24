@@ -2,6 +2,7 @@ var Dungeon = {
     map: null,
     map_size: 64,
     rooms: [],
+    playerPosition: [7,7],
     Generate: function () {
         this.map = [];
         for (var x = 0; x < this.map_size; x++) {
@@ -133,6 +134,17 @@ var Dungeon = {
         }
 
         return false;
+    },
+    IsWall: function(coord){
+         var colorNumber = this.map[coord[0]][coord[1]];
+	 switch(colorNumber){
+	   case 1:
+	     return false;
+	     break;
+	   case 2: 
+	     return true;
+	     break;
+	 }
     }
 }
 
@@ -158,6 +170,9 @@ var Renderer = {
                 this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
             }
         }
+	//Show Player Position
+	this.ctx.fillStyle = "red";
+	this.ctx.fillRect(Dungeon.playerPosition[0] * this.scale, Dungeon.playerPosition[1] * this.scale, this.scale, this.scale)
     }
 };
 

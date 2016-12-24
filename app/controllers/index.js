@@ -1,6 +1,8 @@
 
 var weapons = [{name: "dog", attack: 2}, {name: "brass knuckles", attack: 10}, {name: "pistol", attack: "20"}]
 
+
+
 var Crawler = React.createClass({
   getInitialState() {
     return {
@@ -9,11 +11,13 @@ var Crawler = React.createClass({
       weapon: {name:"dog",attack:2},
       xp: 0,
       enemies: [],
-      items: []
+      items: [],
+      position:[7,7]
     };
   },
   componentDidMount(){
     this.generateMap();
+    $("body").on('keydown', this.handleKeyDown);
   },
   generateMap(){
     Dungeon.Generate();
@@ -42,6 +46,39 @@ var Crawler = React.createClass({
     var level = this.state.level;
     Xp = xp + changeValue;
     this.setState({xp:Xp%100, level: level+(Math.floor(Xp/100))})
+  },
+  refreshDungeon(){ 
+    Dungeon.playerPosition = this.state.position;
+    Renderer.Update(Dungeon.map);
+  },
+  movePlayer(coord){
+    var position = this.state.position;
+    var newPosition = [coord[0] + position[0],coord[1] + position[1]];
+    var isWall = Dungeon.IsWall(newPosition);
+    
+    switch(isWall){
+	case true:
+	  break;
+	case false:
+          this.setState({position:newPosition});
+	  this.refreshDungeon();
+    }
+  },
+  handleKeyDown(e){
+    switch(e.originalEvent.key){
+      case "ArrowRight":
+	this.movePlayer([1,0]);
+	break;
+      case "ArrowLeft":
+	this.movePlayer([-1,0]);
+	break;
+      case "ArrowUp":
+	this.movePlayer([0,-1]);
+	break;
+      case "ArrowDown":
+	this.movePlayer([0,1]);
+	break;
+    }
   },
   render(){
 　　　　return(
