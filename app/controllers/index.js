@@ -232,6 +232,22 @@ var Crawler = React.createClass({
     }
   },
   resetGame(){
+    this.setState({
+      health: 100,
+      level: 1,
+      weapon: {name:"dog",attack:20},
+      xp: 0,
+      enemies: [],
+      weaponItems: [],
+      healthItems:[],
+      lightOn: false,
+      lightRadius: 5,
+      numberOfEnemies: 3,
+      numberOfHealthItems: 3,
+      numberOfWeaponItems: 2,
+      message : "",
+    })
+    Dungeon.ResetDungeon();
     this.generateMap();
   },
   handleSizeChange(e){
@@ -266,7 +282,7 @@ var ButtonContainer = React.createClass({
       <div id="button-container">
 	<div onClick={this.props.toggleLights} className="btn">Lights</div>
 	<div onClick={this.props.resetGame} className="btn">Reset</div>
-	<input onChange={this.props.handleSizeChange} value={this.props.size} className="input" />
+	<input onChange={this.props.handleSizeChange} value={this.props.size} />
       </div>
     )
   }
@@ -279,7 +295,7 @@ var InfoBox = React.createClass({
   },
   render(){
     var enemies = this.props.enemies.map(function(e){
-      return <EnemyDisplay id={e.id} health={e.health} level={e.level} />
+      return <EnemyDisplay key={e.id} id={e.id} health={e.health} level={e.level} />
     });
     return(
       <div id="info-box">

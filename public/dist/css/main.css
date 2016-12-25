@@ -86,9 +86,9 @@ body {
   margin-right: 3px;
 }
 
-.input {
+#button-container input {
   background-color: gray;
-  border-radius: 6px;
+  width: 40px;
   color: white;
   padding-left: 6px;
   padding-right: 6px;

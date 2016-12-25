@@ -8,6 +8,13 @@ var Dungeon = {
     enemyPositions: [],
     weaponPositions: [],
     healthPositions: [],
+　　　　ResetDungeon: function(){
+	this.enemyPositions = [];
+	this.weaponPositions = [];
+	this.healthPositions = [];
+	this.rooms = [];
+	this.map = null;
+    },
     RemoveEnemy: function(id){
 	var index;
 	for(var i = 0; i < this.enemyPositions.length; i++){
