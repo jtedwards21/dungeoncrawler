@@ -236,13 +236,17 @@ var Crawler = React.createClass({
   render(){
     var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} message={this.state.message} />
     var buttonContainer = <ButtonContainer toggleLights={this.toggleLights} resetGame={this.resetGame} />
+    var message = <Message message={this.state.message} />
 　　　　return(
 	<div id="box">
 	  <div id="inner-box">
-	    <canvas id="canvas"></canvas>
-	    {infoBox}
-            {buttonContainer}
+	    <div id="display">
+	       <canvas id="canvas"></canvas>
+	      {infoBox}
+	    </div>
+	　　  {message}
 	  </div>
+         　{buttonContainer}
 	</div>
       
     )
@@ -274,8 +278,6 @@ var InfoBox = React.createClass({
     var enemies = this.props.enemies.map(function(e){
       return <EnemyDisplay id={e.id} health={e.health} level={e.level} />
     });
-    var message = [];
-    if(this.props.message){message = <Message message={this.props.message} />}
     return(
       <div id="info-box">
         <div id="player-stats">
@@ -285,7 +287,6 @@ var InfoBox = React.createClass({
 	  <div>Health: {this.props.health}</div>
 	  <div>XP: {this.props.xp}</div>
 	<div id="enemy-stats">{enemies}</div>
-	<div id="message">{message}</div>
         </div>
       </div>
     )
@@ -298,7 +299,7 @@ var Message = React.createClass({
   },
   render(){
     return (
-      <p>{this.props.message}</p>
+      <div id="message">{this.props.message}</div>
     )
   }
 })
