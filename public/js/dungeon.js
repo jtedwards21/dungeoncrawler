@@ -21,6 +21,32 @@ var Dungeon = {
 	console.log(newPositions);
 	this.enemyPositions = newPositions;
     },
+　　　　RemoveWeapon: function(id){
+	var index;
+	for(var i = 0; i < this.weaponPositions.length; i++){
+	  if(this.weaponPositions[i].id == id){
+		index = i;
+	  }
+	}
+	var newPositions = this.weaponPositions.slice(0,index);
+	var tail = this.weaponPositions.slice(index + 1);
+	newPositions = newPositions.concat(tail);
+	console.log(newPositions);
+	this.weaponPositions = newPositions;
+    },
+    RemoveHealth: function(id){
+	var index;
+	for(var i = 0; i < this.healthPositions.length; i++){
+	  if(this.healthPositions[i].id == id){
+		index = i;
+	  }
+	}
+	var newPositions = this.healthPositions.slice(0,index);
+	var tail = this.healthPositions.slice(index + 1);
+	newPositions = newPositions.concat(tail);
+	console.log(newPositions);
+	this.healthPositions = newPositions;
+    },
     PlacePlayer: function() {
 	var minimum = 0
         var maximum = this.rooms.length - 1

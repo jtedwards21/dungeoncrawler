@@ -43,7 +43,8 @@ var Crawler = React.createClass({
       lightRadius: 5,
       numberOfEnemies: 3,
       numberOfHealthItems: 3,
-      numberOfWeaponItems: 2
+      numberOfWeaponItems: 2,
+      message : ""
     };
   },
   setLightRadius(newRadius){
@@ -104,6 +105,7 @@ var Crawler = React.createClass({
       var position = Dungeon.PlaceWeapon(i);
       var id = i;
       var w = new WeaponItem(weapons[n], position, id);
+      console.log(w);
       items.push(w);
     }
     this.setState({weaponItems: items});
@@ -118,7 +120,7 @@ var Crawler = React.createClass({
       items = items.slice();
       var position = Dungeon.PlaceHealth(i);
       var id = i;
-      var h = new HealthItem(value);
+      var h = new HealthItem(value, position, id);
       items.push(h);
     }
     this.setState({healthItems: items});
@@ -157,7 +159,7 @@ var Crawler = React.createClass({
     var tail = enemyPositions.slice(index + 1);
     newPositions = newPositions.concat(tail);
     Dungeon.RemoveEnemy(id);
-    this.setState({enemies: newPositions});
+    this.setState({enemies: newPositions, message: "You killed an enemy!"});
   },
   killPlayer(){
     console.log('You Died.');
@@ -173,6 +175,7 @@ var Crawler = React.createClass({
 	case true:
 	  break;
 	case false:
+	  //Later I need to make sure you can't walk through enemies
 	  if(isEnemy !== false){
 		console.log('enemy!');
 		var health = this.state.health;
@@ -183,12 +186,28 @@ var Crawler = React.createClass({
 		}
 		enemy.health = enemy.health - playerAttack;
 		health = health - enemy.getAttackValue();
-		//Check for Player Death
+		if(health <= 0){this.killPlayer();}
 		if(enemy.health <= 0){this.killEnemy(enemy.id)}
 		this.setState({health:health});
 	  }
-	  else if (isWeapon !== false){console.log('weapon!')}
-	  else if (isHealth !== false){console.log('health!')};
+	  else if (isWeapon !== false){
+		console.log('weapon!');
+		var weapon;
+		for(var i = 0; i < this.state.weaponItems.length; i++){
+		  if(this.state.weaponItems[i].id == isWeapon){weapon = this.state.weaponItems[i]}
+		}
+		Dungeon.RemoveWeapon(weapon.id);
+		this.setState({weapon:weapon.weapon});
+		}
+	  else if (isHealth !== false){
+		console.log('health!')
+		var health;
+		for(var i = 0; i < this.state.healthItems.length; i++){
+		  if(this.state.healthItems[i].id == isHealth){health = this.state.healthItems[i]}
+		}
+		Dungeon.RemoveHealth(health.id);
+		this.setState({health:health.value});
+		};
           this.setState({position:newPosition});
 	  this.refreshDungeon();
     }
@@ -210,7 +229,7 @@ var Crawler = React.createClass({
     }
   },
   render(){
-    var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} />
+    var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} message={this.state.message} />
 
 　　　　return(
 	<div className="box">
@@ -233,6 +252,8 @@ var InfoBox = React.createClass({
     var enemies = this.props.enemies.map(function(e){
       return <EnemyDisplay id={e.id} health={e.health} level={e.level} />
     });
+    var message = [];
+    if(this.props.message){message = <Message message={this.props.message} />}
     return(
       <div>
 	{this.props.weapon.name}
@@ -241,7 +262,19 @@ var InfoBox = React.createClass({
 	{this.props.health}
 	{this.props.xp}
 	{enemies}
+	{message}
       </div>
+    )
+  }
+})
+
+var Message = React.createClass({
+  getInitialState(){
+    return {}
+  },
+  render(){
+    return (
+      <p>{this.props.message}</p>
     )
   }
 })
