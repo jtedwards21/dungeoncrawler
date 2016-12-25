@@ -60,6 +60,22 @@ body {
   background-color: #351330;
 }
 
+.enemy-id {
+  font-weight: bold;
+}
+
+.enemy {
+  margin-bottom: 5px;
+}
+
+#player-title {
+  font-weight: bold;
+}
+
+#player-stats {
+  margin-bottom: 5px;
+}
+
 #display {
   display: flex;	
 }

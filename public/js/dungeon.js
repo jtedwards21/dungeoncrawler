@@ -109,7 +109,7 @@ var Dungeon = {
             }
         }
 
-        var room_count = Helpers.GetRandom(10, 20);
+        var room_count = Helpers.GetRandom(10, this.map_size/3);
         var min_size = 5;
         var max_size = 15;
 

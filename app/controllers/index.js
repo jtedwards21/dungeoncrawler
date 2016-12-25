@@ -251,6 +251,7 @@ var Crawler = React.createClass({
     this.generateMap();
   },
   handleSizeChange(e){
+    Dungeon.map_size = e.target.value;
     this.setState({size: e.target.value});
   },
   render(){
@@ -300,6 +301,7 @@ var InfoBox = React.createClass({
     return(
       <div id="info-box">
         <div id="player-stats">
+	  <div id="player-title">Player</div>
 	  <div>Weapon: {this.props.weapon.name}</div>
 	  <div>Attack: {this.props.weapon.attack}</div>
 	  <div>Level: {this.props.level}</div>
@@ -330,7 +332,7 @@ var EnemyDisplay = React.createClass({
   render(){
     return (
 	<div className="enemy">
-	  <div>Id: {this.props.id}</div>
+	  <div className="enemy-id">Id: {this.props.id}</div>
 	  <div>Health: {this.props.health}</div>
 	  <div>Level: {this.props.level}</div>
 	</div>
