@@ -18,6 +18,10 @@ function HealthItem(value, position, id)　{
 
 function Enemy (level, position, id) {
   this.id = id;
+　　this.type;
+  if(this.id == 0){
+	this.type = "boss";
+  } else {this.type = "normal";}
   this.position = position;
   this.health = 100;
   this.level = level;
@@ -31,6 +35,7 @@ function Enemy (level, position, id) {
 var Crawler = React.createClass({
   getInitialState() {
     return {
+      inGame: true,
 　　　　　　health: 100,
       level: 1,
       weapon: {name:"dog",attack:20},
@@ -75,7 +80,7 @@ var Crawler = React.createClass({
     Renderer.Initialize();
     //Get Player
     var playerPosition = Dungeon.PlacePlayer();
-    this.setState({position: playerPosition});
+    this.setState({position: playerPosition, inGame: true});
     this.generateEnemies();
     this.generateWeaponItems();
     this.generateHealthItems();
@@ -163,9 +168,13 @@ var Crawler = React.createClass({
     newPositions = newPositions.concat(tail);
     Dungeon.RemoveEnemy(id);
     this.setState({enemies: newPositions, message: "You killed an enemy!"});
+    if(id === 0){this.winGame()};
+  },
+  winGame(){
+    this.setState({message: "You Win!", inGame:false})
   },
   killPlayer(){
-    console.log('You Died.');
+    this.setState({message: "You Died.", inGame:false})
   },
   movePlayer(coord){
     var position = this.state.position;
@@ -174,10 +183,13 @@ var Crawler = React.createClass({
     var isEnemy = Dungeon.IsEnemy(newPosition);
     var isWeapon = Dungeon.IsWeapon(newPosition);
     var isHealth = Dungeon.IsHealth(newPosition);
-    switch(isWall){
-	case true:
-	  break;
+    var canMove;
+    if(isWall == false && this.state.inGame == true){canMove = true}
+    else {canMove == false}
+    switch(canMove){
 	case false:
+	  break;
+	case true:
 	  //Later I need to make sure you can't walk through enemies
 	  if(isEnemy !== false){
 		console.log('enemy!');
