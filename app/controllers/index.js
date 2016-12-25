@@ -263,8 +263,9 @@ var Crawler = React.createClass({
     this.generateMap();
   },
   handleSizeChange(e){
+　　　　if(e.target.value <= 100){
     Dungeon.map_size = e.target.value;
-    this.setState({size: e.target.value});
+    this.setState({size: e.target.value});}
   },
   render(){
     var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} message={this.state.message} />
