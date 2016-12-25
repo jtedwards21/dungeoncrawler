@@ -275,7 +275,7 @@ var Renderer = {
 	xDistance = Math.abs(coord[0] - Dungeon.playerPosition[0]);
 	yDistance = Math.abs(coord[1] - Dungeon.playerPosition[1]);
 	var distance = xDistance + yDistance;
-	if(distance > Dungeon.lightRadius){return true;} else {return false;}
+	if(distance > Dungeon.lightRadius　&& Dungeon.lightOn == false){return true;} else {return false;}
     },
     Update: function () {
         for (var y = 0; y < Dungeon.map_size; y++) {

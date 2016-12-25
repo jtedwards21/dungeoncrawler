@@ -56,10 +56,12 @@ var Crawler = React.createClass({
       case true:
 	this.setState({lightOn: false});
 	Dungeon.lightOn = false;
+	Renderer.Update(Dungeon.map);
 	break;
       case false:
 	this.setState({lightOn: true});
 	Dungeon.lightOn = true;
+	Renderer.Update(Dungeon.map);
 	break;
     }
   },
@@ -228,14 +230,18 @@ var Crawler = React.createClass({
 	break;
     }
   },
+  resetGame(){
+    this.generateMap();
+  },
   render(){
     var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} message={this.state.message} />
-
+    var buttonContainer = <ButtonContainer toggleLights={this.toggleLights} resetGame={this.resetGame} />
 　　　　return(
 	<div id="box">
 	  <div id="inner-box">
 	    <canvas id="canvas"></canvas>
 	    {infoBox}
+            {buttonContainer}
 	  </div>
 	</div>
       
@@ -243,7 +249,21 @@ var Crawler = React.createClass({
   }
 })
 
-
+var ButtonContainer = React.createClass({
+  getInitialState(){
+    return {};
+  },
+　　render(){
+    return (
+      <div id="button-container">
+	<div onClick={this.props.toggleLights} className="btn">Lights</div>
+	<div onClick={this.props.resetGame} className="btn">Reset</div>
+	<div className="btn">Width</div>
+	<div className="btn">Height</div>
+      </div>
+    )
+  }
+})
 
 
 var InfoBox = React.createClass({

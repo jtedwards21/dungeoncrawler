@@ -30,6 +30,7 @@
   font-family: Denominator;
 }
 
+
 body {
   margin: 0;
   padding: 0;
@@ -67,6 +68,14 @@ body {
   height: 512px;
   float: none;
   display: inline;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+#button-container {
+  font-family: Denominator;
 }
 
 #info-box {
