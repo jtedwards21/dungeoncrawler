@@ -44,7 +44,8 @@ var Crawler = React.createClass({
       numberOfEnemies: 3,
       numberOfHealthItems: 3,
       numberOfWeaponItems: 2,
-      message : ""
+      message : "",
+      size: 64
     };
   },
   setLightRadius(newRadius){
@@ -233,9 +234,12 @@ var Crawler = React.createClass({
   resetGame(){
     this.generateMap();
   },
+  handleSizeChange(e){
+    this.setState({size: e.target.value});
+  },
   render(){
     var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} message={this.state.message} />
-    var buttonContainer = <ButtonContainer toggleLights={this.toggleLights} resetGame={this.resetGame} />
+    var buttonContainer = <ButtonContainer handleSizeChange={this.handleSizeChange} size={this.state.size} toggleLights={this.toggleLights} resetGame={this.resetGame} />
     var message = <Message message={this.state.message} />
 　　　　return(
 	<div id="box">
@@ -262,8 +266,7 @@ var ButtonContainer = React.createClass({
       <div id="button-container">
 	<div onClick={this.props.toggleLights} className="btn">Lights</div>
 	<div onClick={this.props.resetGame} className="btn">Reset</div>
-	<div className="btn">Width</div>
-	<div className="btn">Height</div>
+	<input onChange={this.props.handleSizeChange} value={this.props.size} className="input" />
       </div>
     )
   }
