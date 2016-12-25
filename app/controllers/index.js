@@ -50,7 +50,8 @@ var Crawler = React.createClass({
       numberOfHealthItems: 3,
       numberOfWeaponItems: 2,
       message : "",
-      size: 64
+      size: 64,
+      waypoint: []
     };
   },
   setLightRadius(newRadius){
@@ -82,9 +83,14 @@ var Crawler = React.createClass({
     var playerPosition = Dungeon.PlacePlayer();
     this.setState({position: playerPosition, inGame: true});
     this.generateEnemies();
+    this.generateWaypoint();
     this.generateWeaponItems();
     this.generateHealthItems();
     Renderer.Update(Dungeon.map);
+  },
+  generateWaypoint(){
+    var position = Dungeon.PlaceWaypoint();
+    this.setState({waypoint: position});
   },
   generateEnemies(){
     var enemies = this.state.enemies;
@@ -183,6 +189,7 @@ var Crawler = React.createClass({
     var isEnemy = Dungeon.IsEnemy(newPosition);
     var isWeapon = Dungeon.IsWeapon(newPosition);
     var isHealth = Dungeon.IsHealth(newPosition);
+    var isWaypoint = Dungeon.IsWaypoint(newPosition);
     var canMove;
     if(isWall == false && this.state.inGame == true){canMove = true}
     else {canMove == false}
@@ -222,7 +229,10 @@ var Crawler = React.createClass({
 		}
 		Dungeon.RemoveHealth(health.id);
 		this.setState({health:health.value});
-		};
+		}
+	  else if (isWaypoint !== false){
+		console.log('waypoint');
+		}
           this.setState({position:newPosition});
 	  this.refreshDungeon();
     }

@@ -8,10 +8,12 @@ var Dungeon = {
     enemyPositions: [],
     weaponPositions: [],
     healthPositions: [],
+    waypointPosition: [],
 　　　　ResetDungeon: function(){
 	this.enemyPositions = [];
 	this.weaponPositions = [];
 	this.healthPositions = [];
+	this.waypointPosition = [];
 	this.rooms = [];
 	this.map = null;
     },
@@ -53,6 +55,16 @@ var Dungeon = {
 	newPositions = newPositions.concat(tail);
 	console.log(newPositions);
 	this.healthPositions = newPositions;
+    },
+　　　　PlaceWaypoint: function() {
+	var minimum = 0
+        var maximum = this.rooms.length - 1
+        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+        var room = this.rooms[roomNo];
+	var x = Math.floor(room.w/2) + room.x;
+	var y = Math.floor(room.h/2) + room.y;
+        this.waypointPosition = [x,y];
+	return this.waypointPosition;
     },
     PlacePlayer: function() {
 	var minimum = 0
@@ -263,6 +275,10 @@ var Dungeon = {
 	  if(e.position[0] === coord[0] && e.position[1] === coord[1]){return e.id}
         }
 	return false;
+    },
+    IsWaypoint: function(coord){
+	
+	if(this.waypointPosition[0] === coord[0] && this.waypointPosition[1] === coord[1]){return true;} else { return false;}
     }
 }
 
@@ -327,6 +343,10 @@ var Renderer = {
 	  var y = Dungeon.healthPositions[i].position[1];
 	　　this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
         }
+	this.ctx.fillStyle = "white";
+	var x = Dungeon.waypointPosition[0];
+	var y = Dungeon.waypointPosition[1];
+	this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale);
     }
 };
 
