@@ -5,10 +5,6 @@
   src: url("Jambo.otf") format("opentype");
 }
 
-body {
-  margin: 0;
-  padding: 0;
-}
 
 @font-face {
   font-family: Denominator;
@@ -16,6 +12,71 @@ body {
   font-weight: normal;
   src: url("Denominator.ttf") format('truetype');
 }
+
+.header {
+　　position: absolute;
+　　margin-top: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #333;
+  text-align: center;
+}
+
+.header p {
+  font-size: 2em;
+  color: white;
+  font-family: Denominator;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  background-color: #54667F;
+}
+
+#box {
+  background-color: #333;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+  width: 700px;
+  height: 700px;
+  margin-top: 40px;
+  padding-top: 40px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 6px;
+}
+
+#inner-box {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+  height: 512px;
+}
+
+#canvas {
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 512px;
+  height: 512px;
+  float: none;
+  display: inline;
+}
+
+#info-box {
+  font-family: Denominator;
+  display: inline;
+  width: 88px;
+  background-color: #351330;
+  color: white;
+}
+
 .footer {
   position: fixed;
   bottom: 0;
@@ -23,7 +84,6 @@ body {
   height: 60px;
   background-color: #333;
 }
-
 
 #github-container{
   margin:0;

@@ -232,9 +232,11 @@ var Crawler = React.createClass({
     var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} message={this.state.message} />
 
 　　　　return(
-	<div className="box">
-	  <canvas id="canvas"></canvas>
-	  {infoBox}
+	<div id="box">
+	  <div id="inner-box">
+	    <canvas id="canvas"></canvas>
+	    {infoBox}
+	  </div>
 	</div>
       
     )
@@ -255,14 +257,16 @@ var InfoBox = React.createClass({
     var message = [];
     if(this.props.message){message = <Message message={this.props.message} />}
     return(
-      <div>
-	{this.props.weapon.name}
-	{this.props.weapon.attack}
-	{this.props.level}
-	{this.props.health}
-	{this.props.xp}
-	{enemies}
-	{message}
+      <div id="info-box">
+        <div id="player-stats">
+	  <div>Weapon: {this.props.weapon.name}</div>
+	  <div>Attack: {this.props.weapon.attack}</div>
+	  <div>Level: {this.props.level}</div>
+	  <div>Health: {this.props.health}</div>
+	  <div>XP: {this.props.xp}</div>
+	<div id="enemy-stats">{enemies}</div>
+	<div id="message">{message}</div>
+        </div>
       </div>
     )
   }
@@ -285,10 +289,10 @@ var EnemyDisplay = React.createClass({
   },
   render(){
     return (
-	<div>
-	  {this.props.id}
-	  {this.props.health}
-	  {this.props.level}
+	<div className="enemy">
+	  <div>Id: {this.props.id}</div>
+	  <div>Health: {this.props.health}</div>
+	  <div>Level: {this.props.level}</div>
 	</div>
     )
   }
