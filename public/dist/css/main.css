@@ -53,6 +53,14 @@ body {
   border-radius: 6px;
 }
 
+label {
+  color: white;
+  font-size: 1.3em;
+  margin-right: 5px;
+  vertical-align: middle;
+  
+}
+
 #inner-box {
   margin-left: auto;
   margin-right: auto;
@@ -128,6 +136,7 @@ body {
   background-color: #351330;
   color: white;
   font-size: 2em;
+  height: 50px;
 }
 
 #info-box {

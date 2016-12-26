@@ -211,6 +211,9 @@ var Crawler = React.createClass({
 		if(health <= 0){this.killPlayer();}
 		if(enemy.health <= 0){this.killEnemy(enemy.id)}
 		this.setState({health:health});
+                this.setState({position:newPosition});
+		this.showText("Fight!", 0, 100);
+	        this.refreshDungeon();
 	  }
 	  else if (isWeapon !== false){
 		console.log('weapon!');
@@ -220,6 +223,9 @@ var Crawler = React.createClass({
 		}
 		Dungeon.RemoveWeapon(weapon.id);
 		this.setState({weapon:weapon.weapon});
+                this.setState({position:newPosition});
+		this.showText("You picked up a " + weapon.weapon.name, 0, 100);
+	        this.refreshDungeon();
 		}
 	  else if (isHealth !== false){
 		console.log('health!')
@@ -229,12 +235,21 @@ var Crawler = React.createClass({
 		}
 		Dungeon.RemoveHealth(health.id);
 		this.setState({health:health.value});
+		this.showText("You got a health pickup: " + health.value, 0, 100);
+                this.setState({position:newPosition});
+	        this.refreshDungeon();
 		}
 	  else if (isWaypoint !== false){
 		console.log('waypoint');
+		this.enterWaypoint();
+                this.setState({position:newPosition});
+		this.showText("You hit a point.", 0, 100);
+	        this.refreshDungeon();
 		}
-          this.setState({position:newPosition});
-	  this.refreshDungeon();
+	  else {
+                  this.setState({position:newPosition});
+	          this.refreshDungeon();
+	  }
     }
   },
   handleKeyDown(e){
@@ -267,7 +282,28 @@ var Crawler = React.createClass({
       numberOfEnemies: 3,
       numberOfHealthItems: 3,
       numberOfWeaponItems: 2,
-      message : "",
+      message : ""
+    })
+    Dungeon.ResetDungeon();
+    this.generateMap();
+  },
+  showText(message, index, interval) {   
+    var that = this;
+    if(index == 0){setTimeout(function(){$("#message").html("");}, interval*(message.length + 2))}
+    if (index < message.length) {
+      $("#message").append(message[index++]);
+      setTimeout(function () { that.showText(message, index, interval); }, interval);
+    }
+  },
+  enterWaypoint(){
+    this.setState({
+      enemies: [],
+      weaponItems: [],
+      healthItems:[],
+      numberOfEnemies: 3,
+      numberOfHealthItems: 3,
+      numberOfWeaponItems: 2,
+      message : ""
     })
     Dungeon.ResetDungeon();
     this.generateMap();
@@ -280,7 +316,7 @@ var Crawler = React.createClass({
   render(){
     var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} message={this.state.message} />
     var buttonContainer = <ButtonContainer handleSizeChange={this.handleSizeChange} size={this.state.size} toggleLights={this.toggleLights} resetGame={this.resetGame} />
-    var message = <Message message={this.state.message} />
+    var message = <Message />
 　　　　return(
 	<div id="box">
 	  <div id="inner-box">
@@ -306,6 +342,7 @@ var ButtonContainer = React.createClass({
       <div id="button-container">
 	<div onClick={this.props.toggleLights} className="btn">Lights</div>
 	<div onClick={this.props.resetGame} className="btn">Reset</div>
+	<label>Size:</label>
 	<input onChange={this.props.handleSizeChange} value={this.props.size} />
       </div>
     )
@@ -343,7 +380,7 @@ var Message = React.createClass({
   },
   render(){
     return (
-      <div id="message">{this.props.message}</div>
+      <div id="message"></div>
     )
   }
 })
