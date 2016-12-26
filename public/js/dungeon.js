@@ -17,6 +17,19 @@ var Dungeon = {
 	this.rooms = [];
 	this.map = null;
     },
+    IsFull(coord){
+	for(var i = 0; i < this.enemyPositions.length; i ++){
+	  if(this.enemyPositions[i].position[0] == coord[0] && this.enemyPositions[i].position[1] == coord[1]){return true}
+	}
+	for(var i = 0; i < this.weaponPositions.length; i ++){
+	  if(this.weaponPositions[i].position[0] == coord[0] && this.weaponPositions[i].position[1] == coord[1]){return true}
+	}
+	for(var i = 0; i < this.healthPositions.length; i ++){
+	  if(this.healthPositions[i].position[0] == coord[0] && this.healthPositions[i].position[1] == coord[1]){return true}
+	}
+        if(this.waypointPosition[0] == coord[0] && this.waypointPosition[1] == coord[1]){return true}
+	return false;
+    },
     RemoveEnemy: function(id){
 	var index;
 	for(var i = 0; i < this.enemyPositions.length; i++){
@@ -57,58 +70,75 @@ var Dungeon = {
 	this.healthPositions = newPositions;
     },
 　　　　PlaceWaypoint: function() {
-	var minimum = 0
-        var maximum = this.rooms.length - 1
-        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-        var room = this.rooms[roomNo];
-	var x = Math.floor(room.w/2) + room.x;
-	var y = Math.floor(room.h/2) + room.y;
+	var IsFull = true;
+	while(IsFull == true){
+	  var minimum = 0
+          var maximum = this.rooms.length - 1
+          var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+          var room = this.rooms[roomNo];
+	  var x = Math.floor(room.w/2) + room.x;
+	  var y = Math.floor(room.h/2) + room.y;
+	  IsFull = this.IsFull([x,y]);
+	}
         this.waypointPosition = [x,y];
 	return this.waypointPosition;
     },
     PlacePlayer: function() {
-	var minimum = 0
-        var maximum = this.rooms.length - 1
-        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-        var room = this.rooms[roomNo];
-	var x = Math.floor(room.w/2) + room.x;
-	var y = Math.floor(room.h/2) + room.y;
+	var IsFull = true;
+	while(IsFull == true){
+	  var minimum = 0
+          var maximum = this.rooms.length - 1
+          var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+          var room = this.rooms[roomNo];
+	  var x = Math.floor(room.w/2) + room.x;
+	  var y = Math.floor(room.h/2) + room.y;
+	  IsFull = this.IsFull([x,y]);
+	}
         this.playerPosition = [x,y];
 	return this.playerPosition;
     },
 　　　　PlaceWeapon: function(id){
-	var minimum = 0
-        var maximum = this.rooms.length - 1
-        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-        var room = this.rooms[roomNo];
-	var x = Math.floor(room.w/2) + room.x;
-	var y = Math.floor(room.h/2) + room.y;
+	var IsFull = true;
+	while(IsFull == true){
+	　　var minimum = 0
+        　　var maximum = this.rooms.length - 1
+        　　var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+        　　var room = this.rooms[roomNo];
+	　　var x = Math.floor(room.w/2) + room.x;
+	　　var y = Math.floor(room.h/2) + room.y;
+	  IsFull = this.IsFull([x,y]);
+        }
         var e = {position: [x,y], id: id};
-        console.log(e);
 	this.weaponPositions.push(e);
 	return [x,y];
     },
     PlaceHealth: function(id){
-	var minimum = 0
-        var maximum = this.rooms.length - 1
-        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-        var room = this.rooms[roomNo];
-	var x = Math.floor(room.w/2) + room.x;
-	var y = Math.floor(room.h/2) + room.y;
+	var IsFull = true;
+	while(IsFull == true){
+	　　var minimum = 0
+        　　var maximum = this.rooms.length - 1
+        　　var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+        　　var room = this.rooms[roomNo];
+	　　var x = Math.floor(room.w/2) + room.x;
+	　　var y = Math.floor(room.h/2) + room.y;
+	  IsFull = this.IsFull([x,y]);
+	}
         var e = {position: [x,y], id: id};
-        console.log(e);
 	this.healthPositions.push(e);
 	return [x,y];
     },
     PlaceEnemy: function(id) {
-        var minimum = 0
-        var maximum = this.rooms.length - 1
-        var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-        var room = this.rooms[roomNo];
-	var x = Math.floor(room.w/2) + room.x;
-	var y = Math.floor(room.h/2) + room.y;
+	var IsFull = true;
+	while(IsFull == true){
+          var minimum = 0
+          var maximum = this.rooms.length - 1
+          var roomNo =  Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+          var room = this.rooms[roomNo];
+	  var x = Math.floor(room.w/2) + room.x;
+	  var y = Math.floor(room.h/2) + room.y;
+	  IsFull = this.IsFull([x,y]);
+	}
         var e = {position: [x,y], id: id};
-        console.log(e);
 	this.enemyPositions.push(e);
 	return [x,y];
     },
