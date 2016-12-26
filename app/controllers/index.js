@@ -315,7 +315,8 @@ var Crawler = React.createClass({
   },
   render(){
     var infoBox = <InfoBox enemies={this.state.enemies} weapon={this.state.weapon} level={this.state.level} health={this.state.health} xp={this.state.xp} message={this.state.message} />
-    var buttonContainer = <ButtonContainer handleSizeChange={this.handleSizeChange} size={this.state.size} toggleLights={this.toggleLights} resetGame={this.resetGame} />
+    var buttonContainer = <ButtonContainer toggleLights={this.toggleLights} resetGame={this.resetGame} />
+　　　　var sizeWidget = <SizeWidget handleSizeChange={this.handleSizeChange} size={this.state.size} />
     var message = <Message />
 　　　　return(
 	<div id="box">
@@ -326,7 +327,10 @@ var Crawler = React.createClass({
 	    </div>
 	　　  {message}
 	  </div>
-         　{buttonContainer}
+	  <div id="controls">
+	    {sizeWidget}
+         　  {buttonContainer}
+	  </div>
 	</div>
       
     )
@@ -342,9 +346,22 @@ var ButtonContainer = React.createClass({
       <div id="button-container">
 	<div onClick={this.props.toggleLights} className="btn">Lights</div>
 	<div onClick={this.props.resetGame} className="btn">Reset</div>
-	<label>Size:</label>
-	<input onChange={this.props.handleSizeChange} value={this.props.size} />
+	
       </div>
+    )
+  }
+})
+
+var SizeWidget = React.createClass({
+  getInitialState(){
+    return {};
+  },
+  render(){
+    return (
+	<div id="size-widget">
+	  <label>Size:</label>
+	  <input onChange={this.props.handleSizeChange} value={this.props.size} />
+	</div>
     )
   }
 })

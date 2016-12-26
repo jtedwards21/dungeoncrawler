@@ -13,6 +13,10 @@
   src: url("Denominator.ttf") format('truetype');
 }
 
+#size-widget {
+  display: inline;
+}
+
 .header {
 　　position: absolute;
 　　margin-top: 0;
@@ -40,6 +44,11 @@ body {
   background-color: #54667F;
 }
 
+#controls {
+  margin-top: 10px;
+  text-align: center;
+}
+
 #box {
   background-color: #333;
   margin-left: auto;
@@ -58,6 +67,7 @@ label {
   font-size: 1.3em;
   margin-right: 5px;
   vertical-align: middle;
+  font-family: Denominator;
   
 }
 
@@ -108,9 +118,10 @@ label {
   padding-bottom: 3px;
   display: inline;
   margin-right: 3px;
+  font-size: 1.3em;
 }
 
-#button-container input {
+#size-widget input {
   background-color: gray;
   width: 40px;
   color: white;
@@ -127,7 +138,7 @@ label {
   margin-left: auto;
   margin-right: auto;
   float: none;
-  width: 200px;
+  display: inline;
 }
 
 #message {
