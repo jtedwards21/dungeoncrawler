@@ -173,14 +173,18 @@ var Crawler = React.createClass({
     var tail = enemyPositions.slice(index + 1);
     newPositions = newPositions.concat(tail);
     Dungeon.RemoveEnemy(id);
-    this.setState({enemies: newPositions, message: "You killed an enemy!"});
+    this.showText("You defeated an enemy!", 0, 100);
+　　　　this.refreshDungeon();
+    this.setState({enemies: newPositions});
     if(id === 0){this.winGame()};
   },
   winGame(){
-    this.setState({message: "You Win!", inGame:false})
+    this.showText("You Win!", 0, 100);
+    this.setState({inGame:false})
   },
   killPlayer(){
-    this.setState({message: "You Died.", inGame:false})
+    this.showText("You've died.", 0, 100);
+    this.setState({inGame:false})
   },
   movePlayer(coord){
     var position = this.state.position;
@@ -209,11 +213,12 @@ var Crawler = React.createClass({
 		enemy.health = enemy.health - playerAttack;
 		health = health - enemy.getAttackValue();
 		if(health <= 0){this.killPlayer();}
-		if(enemy.health <= 0){this.killEnemy(enemy.id)}
-		this.setState({health:health});
-                this.setState({position:newPosition});
-		this.showText("Fight!", 0, 100);
-	        this.refreshDungeon();
+		else if(enemy.health <= 0){this.killEnemy(enemy.id)}
+		else {
+		  this.setState({health:health});
+		  this.showText("Fight!", 0, 100);
+    　　　　　　　　　　　　　　Renderer.Update(Dungeon.map);
+		}
 	  }
 	  else if (isWeapon !== false){
 		console.log('weapon!');
@@ -322,8 +327,8 @@ var Crawler = React.createClass({
 	<div id="box">
 	  <div id="inner-box">
 	    <div id="display">
+	       {infoBox}
 	       <canvas id="canvas"></canvas>
-	      {infoBox}
 	    </div>
 	　　  {message}
 	  </div>
@@ -379,13 +384,13 @@ var InfoBox = React.createClass({
       <div id="info-box">
         <div id="player-stats">
 	  <div id="player-title">Player</div>
-	  <div>Weapon: {this.props.weapon.name}</div>
+	  <div>  Weapon: {this.props.weapon.name}</div>
 	  <div>Attack: {this.props.weapon.attack}</div>
 	  <div>Level: {this.props.level}</div>
 	  <div>Health: {this.props.health}</div>
 	  <div>XP: {this.props.xp}</div>
-	<div id="enemy-stats">{enemies}</div>
         </div>
+	{enemies}
       </div>
     )
   }
@@ -409,7 +414,7 @@ var EnemyDisplay = React.createClass({
   render(){
     return (
 	<div className="enemy">
-	  <div className="enemy-id">Id: {this.props.id}</div>
+	  <div className="enemy-id">Enemy {this.props.id}</div>
 	  <div>Health: {this.props.health}</div>
 	  <div>Level: {this.props.level}</div>
 	</div>
